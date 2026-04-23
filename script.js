@@ -17,11 +17,31 @@ const HTML_OUTPUT = document.getElementById("databaseOutput");
 // The ref('/') part tells the operation to write to the base level of the database "/"
 // This means it replaces the whole database with message:Hello World
 /**************************************************************/
-function helloWorld(){
+
+function helloWorld() {
   console.log("Running helloWorld()")
   firebase.database().ref('/').set(
     {
       message: 'Hello World!'
     }
   )
+}
+
+function simpleRead() {
+  console.log("Reading Message")
+  firebase.database().ref('/message').once('value', displayRead, fb_readError)
+}
+
+function displayRead(snapshot) {
+  var dbData = snapshot.val();
+  if (dbData == null) {
+    console.log("There was no record when trying to read from the database!");
+  } else {
+    console.log("The message is: " + dbData);
+  }
+}
+
+function fb_readError(error){
+  console.log("There was an error reading this message!")
+  console.error(error);
 }
