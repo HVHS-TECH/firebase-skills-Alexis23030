@@ -3,9 +3,6 @@
 // Initialize firebase, connect to the Firebase project.
 // 
 // Find the config data in the Firebase console. Cog wheel > Project Settings > General > Your Apps > SDK setup and configuration > Config
-//
-// Input:  n/a
-// Return: n/a
 /**************************************************************/
   const firebaseConfig = {
     apiKey: "AIzaSyDtbL7W-DLJjQ2b5JyaFpPCXkpg6yXqs80",

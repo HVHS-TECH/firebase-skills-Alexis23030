@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width">
   <title>Firebase Basics</title>
   <link rel="icon" type="image/x-icon" href="assets/images/dtec_favicon.png">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css" />
 
   <!-- firebase start ****************************************-->
@@ -24,27 +26,22 @@
 
 <body>
 
-  <a href="about.html">Read me first</a>
-
-  All of the output from firebase goes to the console, open it up now (ctrl - shift - i)
-
-  <h2>Hello world - a minimal write</h2>
-  <p>This button overwrites your entire database with the key/value pair Message : "Hello World" using the <a
-      href="https://firebase.google.com/docs/database/web/read-and-write#basic_write">set()</a> operation. Look in
-    firebase to see the effect.</p>
-  <p> Task 1: change the message in fb_helloWorld() to "Kia ora te ao"</p>
-  <p> Task 2: create another button that changes the message to "Goodbye/ka kite āno"</p>
-  <button onclick="simpleWrite()">Basic Write</button><br>
-  <button onclick="simpleRead()">Basic Read</button><br>
-  <button onclick="readListener()">Read listener</button><br>
-  <button onclick="complexWrite()">Complex Write</button><br>
-  <button onclick="updateWrite('Alexis', 0)">Update HighScore (on parameters)</button><br>
-  <button onclick="complexRead()">Complex Read</button><br>
-  <button onclick="sortedRead()">Sorted Read</button><br>
-  <button onclick="fb_login()">Login With Google</button><br>
+  <h2>Firebase Skills</h2>
+  <p>All of the Firebase Skills</p>
+  <button class="button" onclick="simpleWrite()">Basic Write</button>
+  <button class="button" onclick="simpleRead()">Basic Read</button>
+  <button class="button" onclick="readListener()">Read listener</button><br>
+  <button class="button" onclick="complexWrite()">Complex Write</button>
+  <button class="button" onclick="updateWrite('Alexis', 0)">Update Highscore</button>
+  <button class="button" onclick="complexRead()">Complex Read</button><br>
+  <button class="button" onclick="sortedRead()">Sorted Read</button>
+  <button class="button" onclick="fb_login()">Login With Google</button><br>
 
   <h2>Output</h2>
   <div id="databaseOutput"></div>
+
+  <h2>User:</h2>
+  <div id="userInfo"></div>
 
   <script src="script.js"></script>
 
