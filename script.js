@@ -13,13 +13,35 @@
 // This means it replaces the whole database with message:Hello World
 /**************************************************************/
 
-var highScoreTable = {
-  users: {
-    Alexis: 100,
-    Blake: 20,
-    Wilkin: 200
-  }
+function fb_login() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("Logged In")
+      console.log(user)
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/v8/firebase.User
+      var uid = user.uid;
+      // ...
+    } else {
+      console.log("Not Logged In")
+      // Using a popup.
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Google Access Token.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+      });
+    }
+  });
 }
+
+
+
+
+
 
 
 function simpleWrite() {
@@ -37,18 +59,6 @@ function readListener() {
   firebase.database().ref('/messages/message').on('value', displayRead, fb_readError) // .on for listen for change, .once for once
 }
 
-function complexWrite() {
-  console.log("Writing High Score Table")
-  firebase.database().ref('/highscoretable').set(highScoreTable)
-}
-
-function updateWrite(user, score) {
-  console.log("Updating High Score User Alexis")
-  firebase.database().ref('/highscoretable/users/'+user).set(score)
-}
-
-//Resilient code stuff:
-
 function displayRead(snapshot) {
   var dbData = snapshot.val();
   if (dbData == null) {
@@ -56,7 +66,6 @@ function displayRead(snapshot) {
   } else {
     console.log("The message is: " + dbData);
     databaseOutput.textContent = dbData;
-
   }
 }
 
