@@ -1,8 +1,11 @@
 /**************************************************************/
 //fb_io.js: common firebase functions used throughout your code. 
 /**************************************************************/
-
-
+let user;
+let uid;
+let userDisplayName;
+let userEmail
+let userPhotoURL;
 /**************************************************************/
 //Functions called by Buttons; Writes/Reads
 /**************************************************************/
@@ -16,19 +19,19 @@ function complexWrite() {
 function updateWrite(user, score) {
     console.log("Updating High Score: User Alexis")
     databaseOutput.innerHTML = "Updating Alexis' Highscore";
-    firebase.database().ref('/highscoretable/users/' + user).set(score)
+    firebase.database().ref('/highscoretable/users/'+ uid + "/" + user).set(score)
 }
 
 function complexRead() {
     console.log("Reading High Scores")
     databaseOutput.innerHTML = "Reading Highscores";
-    firebase.database().ref('/highscoretable/users').once('value', displayHighScores, fb_readError)
+    firebase.database().ref('/highscoretable/users/'+ uid).once('value', displayHighScores, fb_readError)
 }
 
 function sortedRead() {
     console.log("Reading Sorted High Scores")
     databaseOutput.innerHTML = "Reading sorted highscores";
-    firebase.database().ref('/highscoretable/users').orderByValue().limitToLast(3).once('value', displayHighScoresSorted, fb_readError)
+    firebase.database().ref('/highscoretable/users/'+ uid).orderByValue().limitToLast(3).once('value', displayHighScoresSorted, fb_readError)
     //orderByValue orders it, limitToLast gives top (3) values, limitToFirst exists
 }
 
@@ -90,18 +93,17 @@ function fb_readError(error) {
 /**************************************************************/
 
 function fb_login() {
-    let user;
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log("Logged In")
             databaseOutput.innerHTML = "Logged In";
-            var uid = user.uid;
             user = firebase.auth().currentUser;
             if (user !== null) {
-                const userDisplayName = user.displayName;
-                const userEmail = user.email;
-                const userPhotoURL = user.photoURL;
-                const userID = user.uid;
+                userDisplayName = user.displayName;
+                userEmail = user.email;
+                userPhotoURL = user.photoURL;
+                uid = user.uid;
+                console.log(uid)
                 userInfo.innerHTML = userDisplayName + "<br>" + userEmail + "<br>" + "<img src=" + userPhotoURL + " alt='Girl in a jacket' width='100' height='100'>";
             }
         } else {
