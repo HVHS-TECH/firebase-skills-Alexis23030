@@ -1,7 +1,10 @@
 /**************************************************************/
 //fb_io.js: common firebase functions used throughout your code. 
 /**************************************************************/
-
+let userDisplayName;
+let userEmail;
+let userPhotoURL;
+let uid;
 
 /**************************************************************/
 //Functions called by Buttons; Writes/Reads
@@ -22,7 +25,8 @@ function updateWrite(user, score) {
 function complexRead() {
     console.log("Reading High Scores")
     databaseOutput.innerHTML = "Reading Highscores";
-    firebase.database().ref('/highscoretable/users').once('value', displayHighScores, fb_readError)
+    firebase.database().ref('/highscoretable/users/').once('value', displayHighScores, fb_readError)
+    //    firebase.database().ref('/highscoretable/users/' + uid + "/Blake").once('value', displayHighScores, fb_readError
 }
 
 function sortedRead() {
@@ -37,14 +41,24 @@ function sortedRead() {
 /**************************************************************/
 
 function displayHighScores(snapshot) {
+    console.log(snapshot.val())
     databaseOutput.innerHTML = "";
     var highScores = snapshot.val();
+
+    const result = Object.values(highScores)[0].target;
+    console.log(result); // "Success!"
+
+    //console.log(highScores.uid.Name)
     if (highScores == null) {
         console.log("There was no record when trying to read from the database!");
         databaseOutput.innerHTML = "There was no record when trying to read from the database!";
     } else {
-        let names = Object.keys(highScores);
+        
+        let names = highScores;
+        //let names = Object.keys(highScores);
+
         for (i = 0; i < names.length; i++) {
+            console.log(names[i])
             console.log("Score " + i + " is for " + names[i] + ", with " + highScores[names[i]] + " points. ");
             databaseOutput.innerHTML += "Score " + i + " is for " + names[i] + ", with " + highScores[names[i]] + " points. " + "<br>";
         }
@@ -95,13 +109,12 @@ function fb_login() {
         if (user) {
             console.log("Logged In")
             databaseOutput.innerHTML = "Logged In";
-            var uid = user.uid;
             user = firebase.auth().currentUser;
             if (user !== null) {
-                const userDisplayName = user.displayName;
-                const userEmail = user.email;
-                const userPhotoURL = user.photoURL;
-                const userID = user.uid;
+                userDisplayName = user.displayName;
+                userEmail = user.email;
+                userPhotoURL = user.photoURL;
+                uid = user.uid;
                 userInfo.innerHTML = userDisplayName + "<br>" + userEmail + "<br>" + "<img src=" + userPhotoURL + " alt='Girl in a jacket' width='100' height='100'>";
             }
         } else {
