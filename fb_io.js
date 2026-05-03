@@ -16,7 +16,7 @@ function complexWrite() {
 function updateWrite(user, score) {
     console.log("Updating High Score: User Alexis")
     databaseOutput.innerHTML = "Updating Alexis' Highscore";
-    firebase.database().ref('/highscoretable/users/' + user).set(score)
+    firebase.database().ref('/highscoretable/users/' + uid).set(score)
 }
 
 function complexRead() {
