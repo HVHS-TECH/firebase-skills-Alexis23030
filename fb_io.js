@@ -11,28 +11,29 @@ let uid;
 /**************************************************************/
 
 function complexWrite() {
-    console.log("Writing High Score Table")
+    console.log("This Function Does Nothing Now")
+    databaseOutput.innerHTML = " This Function Does Nothing Now"
+    /*console.log("Writing High Score Table")
     databaseOutput.innerHTML = "Written High Score Table";
-    firebase.database().ref('/highscoretable').set(highScoreTable)
+    firebase.database().ref('/highscoretable').set(highScoreTable)*/
 }
 
-function updateWrite(user, score) {
-    console.log("Updating High Score: User Alexis")
+function updateWrite(score) {
+    console.log("Updating High Score User")
     databaseOutput.innerHTML = "Updating Alexis' Highscore";
-    firebase.database().ref('/highscoretable/users/' + user).set(score)
+    firebase.database().ref('/highscoretable/users/' + uid + "/Score").set(score)
 }
 
 function complexRead() {
     console.log("Reading High Scores")
     databaseOutput.innerHTML = "Reading Highscores";
     firebase.database().ref('/highscoretable/users/').once('value', displayHighScores, fb_readError)
-    //    firebase.database().ref('/highscoretable/users/' + uid + "/Blake").once('value', displayHighScores, fb_readError
 }
 
 function sortedRead() {
     console.log("Reading Sorted High Scores")
     databaseOutput.innerHTML = "Reading sorted highscores";
-    firebase.database().ref('/highscoretable/users').orderByValue().limitToLast(3).once('value', displayHighScoresSorted, fb_readError)
+    firebase.database().ref('/highscoretable/users').orderByValue().limitToLast(3).once('value', displayHighScores, fb_readError)
     //orderByValue orders it, limitToLast gives top (3) values, limitToFirst exists
 }
 
@@ -41,30 +42,24 @@ function sortedRead() {
 /**************************************************************/
 
 function displayHighScores(snapshot) {
-    console.log(snapshot.val())
     databaseOutput.innerHTML = "";
-    var highScores = snapshot.val();
+    let highScores = snapshot.val();
 
-    const result = Object.values(highScores)[0].target;
-    console.log(result); // "Success!"
-
-    //console.log(highScores.uid.Name)
     if (highScores == null) {
         console.log("There was no record when trying to read from the database!");
         databaseOutput.innerHTML = "There was no record when trying to read from the database!";
     } else {
-        
-        let names = highScores;
-        //let names = Object.keys(highScores);
-
-        for (i = 0; i < names.length; i++) {
-            console.log(names[i])
-            console.log("Score " + i + " is for " + names[i] + ", with " + highScores[names[i]] + " points. ");
-            databaseOutput.innerHTML += "Score " + i + " is for " + names[i] + ", with " + highScores[names[i]] + " points. " + "<br>";
+        let highScoreInfo = Object.values(highScores);
+        highScoreInfo.reverse(); //This line reverses the order so that when sorted it is biggest to smallest
+        for (i = 0; i < highScoreInfo.length; i++) {
+            let currentName = highScoreInfo[i].Name;
+            let currentScore = highScoreInfo[i].Score;
+            console.log("Score " + i + " is for " + currentName + ", with " + currentScore + " points. ");
+            databaseOutput.innerHTML += "Score " + i + " is for " + currentName + ", with " + currentScore + " points. " + "<br>";
         }
     }
 }
-
+/*
 function displayHighScoresSorted(snapshot) {
     databaseOutput.innerHTML = "";
     sortedArrayKey = [];
@@ -84,7 +79,7 @@ function addToArray(child) {
     sortedArrayKey.push(child.key)
 }
 
-/*
+
 function showOneScore(child) {
     console.log(child.key + " got " + child.val() + " points");
     databaseOutput.innerHTML += child.key + " got " + child.val() + " points" + "<br>";
