@@ -55,7 +55,6 @@ function displayHighScores(snapshot) {
             let currentName = highScoreInfo[i].Name;
             let currentScore = highScoreInfo[i].Score;
             console.log("Score " + i + " is for " + currentName + ", with " + currentScore + " points. ");
-            databaseOutput.innerHTML += "Score " + i + " is for " + currentName + ", with " + currentScore + " points. " + "<br>";
         }
     }
 }
