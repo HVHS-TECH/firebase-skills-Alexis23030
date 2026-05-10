@@ -25,23 +25,15 @@ function updateWrite(score) {
 }
 
 function complexRead() {
-    console.log("Reading High Scores")
-    databaseOutput.innerHTML = "Reading Highscores";
-    firebase.database().ref('/highscoretable/users/').once('value', displayHighScores, fb_readError)
+    console.log("This Function Does Nothing Now")
+    databaseOutput.innerHTML = "This Function Does Nothing Now";
 }
 
-function sortedRead() {
+async function sortedRead() {
     console.log("Reading Sorted High Scores")
     databaseOutput.innerHTML = "Reading sorted highscores";
-    firebase.database().ref('/highscoretable/users').orderByValue().limitToLast(3).once('value', displayHighScores, fb_readError)
+    var snapshot = await firebase.database().ref('/highscoretable/users').orderByValue().limitToLast(3).once('value')
     //orderByValue orders it, limitToLast gives top (3) values, limitToFirst exists
-}
-
-/**************************************************************/
-//Displaying Info 
-/**************************************************************/
-
-function displayHighScores(snapshot) {
     databaseOutput.innerHTML = "";
     let highScores = snapshot.val();
 
@@ -51,47 +43,15 @@ function displayHighScores(snapshot) {
     } else {
         let highScoreInfo = Object.values(highScores);
         highScoreInfo.reverse(); //This line reverses the order so that when sorted it is biggest to smallest
+        console.log("biggie is " + highScoreInfo[0].Name)
         for (i = 0; i < highScoreInfo.length; i++) {
             let currentName = highScoreInfo[i].Name;
             let currentScore = highScoreInfo[i].Score;
-            console.log("Score " + i + " is for " + currentName + ", with " + currentScore + " points. ");
+            console.log(i+1 + " place: "+ currentName + ", with " + currentScore + " points. ");
+            databaseOutput.innerHTML += i+1 + " place: " + currentName + ", with " + currentScore + " points. <br>";
         }
     }
 }
-/*
-function displayHighScoresSorted(snapshot) {
-    databaseOutput.innerHTML = "";
-    sortedArrayKey = [];
-    sortedArrayVal = [];
-    //snapshot.forEach(showOneScore);
-    snapshot.forEach(addToArray);
-    sortedArrayVal.reverse();
-    sortedArrayKey.reverse();
-    for (i = 0; i < sortedArrayKey.length; i++) {
-        console.log((i + 1) + ". " + sortedArrayKey[i] + " got " + sortedArrayVal[i] + " points")
-        databaseOutput.innerHTML += (i + 1) + ". " + sortedArrayKey[i] + " got " + sortedArrayVal[i] + " points" + "<br>";
-    }
-}
-
-function addToArray(child) {
-    sortedArrayVal.push(child.val())
-    sortedArrayKey.push(child.key)
-}
-
-
-function showOneScore(child) {
-    console.log(child.key + " got " + child.val() + " points");
-    databaseOutput.innerHTML += child.key + " got " + child.val() + " points" + "<br>";
-}
-*/
-
-
-function fb_readError(error) {
-    console.log("There was an error reading this message!")
-    console.error(error);
-    databaseOutput.innerHTML = "There was an error reading the message!";
-}
-
 
 /**************************************************************/
 //Login With Google + User Info
