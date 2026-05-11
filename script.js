@@ -1,23 +1,5 @@
-
 /**************************************************************/
 // Script.js is where you will write most of your code.     
-/**************************************************************/
-
-let sortedArrayVal = [];
-let sortedArrayKey = [];
-
-var highScoreTable = {
-  users: {
-    Alexis: 100,
-    Blake: 20,
-    Wilkin: 200,
-    Ryan: 30,
-    Joe: 45
-  }
-}
-
-/**************************************************************/
-// Simple Message Stuff
 /**************************************************************/
 
 function simpleWrite() {
